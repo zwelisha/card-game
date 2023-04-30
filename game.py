@@ -28,7 +28,7 @@ class Game:
 
     def deal_cards(self) -> list:
         """
-        Generates a list of of player cards, if no_of_players
+        Generates a list of lists, with each list containing cards for each player
 
         Parameters
         ----------
@@ -57,9 +57,10 @@ class Game:
                     card = random.choice(deck)
                     player_cards.append(card)
                     deck.remove(card)
-                except:
+                except IndexError as err:
                     print("The deck is empty")
+                    return
             cards.append(player_cards)
             count += 1
-            
+
         return cards
