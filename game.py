@@ -1,9 +1,11 @@
 import random
-
+from tkinter import *
+import random
+from PIL import Image, ImageTk 
 
 class Game:
     """
-    A class that represents a card object
+    A class that represents a card game object
 
     ...
 
@@ -64,3 +66,5 @@ class Game:
             count += 1
 
         return cards
+    
+    
