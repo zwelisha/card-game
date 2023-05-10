@@ -15,7 +15,9 @@ info_frame.pack(pady=10)
 info_label = Label(info_frame, text="EACH ROW REPRESENTS CARDS FOR PLAYER 1-6")
 info_label.pack()
 
+scores_label = Label(info_frame, text='')
 winner_label = Label(info_frame, text="Winner: ")
+
 
 main_frame = Frame(root)
 main_frame.pack(pady=10)
@@ -24,7 +26,7 @@ main_frame.pack(pady=10)
 global no_of_players
 global cards_per_player
 global cards
-global scores
+global scores 
 scores = dict(player1=0, player2=0, player3=0, player4=0, player5=0, player6=0)
 
 
@@ -36,11 +38,13 @@ def main():
     # update_player_scores()
     display_cards(cards)
     replay_btn = Button(
-        root, text="REPLAY", command=lambda: display_cards(game_obj.deal_cards())
+        root, text="DEAL CARDS", command=lambda: display_cards(game_obj.deal_cards())
     )
     replay_btn.pack()
     quit_btn = Button(root, text="QUIT", command=root.destroy)
     quit_btn.pack()
+
+    scores_label.pack()
     winner_label.pack()
 
     root.mainloop()
@@ -84,13 +88,24 @@ def calculate_suit_score(player_cards: list) -> int:
             score = score * 4
     return score
 
-
+def calculate_scores(cards):
+    print(cards)
+    size = len(cards)
+    for i in range(size):
+        score = calculate_player_score(cards[i])
+        scores[f'player{i+1}'] = score
+    
+    
+    
 
 
 def display_cards(all_cards):
+    calculate_scores(all_cards)
+    winner_label.text = f"{scores['player1']}"
     cards = all_cards
     print(cards)
     print(scores)
+    scores_label.text = scores
     row = 0
     col = 0
     image_list = []
@@ -99,7 +114,7 @@ def display_cards(all_cards):
         for i in range(len(images)):
             global image
             image = images[i]
-            image_list.append(image)
+            image_list.append(image) 
 
     for card_image in image_list:
         label = Label(main_frame, image=card_image)
@@ -109,6 +124,7 @@ def display_cards(all_cards):
         if col >= 5:
             row += 1
             col = 0
+    
 
 
 if __name__ == "__main__":
