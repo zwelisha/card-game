@@ -75,7 +75,6 @@ Run ```black filename.extension``` for example ```black main.py``` will format t
 ### Running The Project
 
 #### 1. Clone the project
-
 ```
 git clone https://github.com/zwelisha/card-game.git
 ```
@@ -92,8 +91,13 @@ Then to run this game run the following command
 ```
 python3 main.py
 ```
-Have fun!
 
+### Testing The Project
+
+```
+Run python3 test_game.py
+```
+Have fun!
 
 #### Authors
 

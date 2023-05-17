@@ -1,7 +1,8 @@
 import random
-from tkinter import *
+from tkinter import Tk
 import random
-from PIL import Image, ImageTk 
+from PIL import Image, ImageTk
+
 
 class Game:
     """
@@ -63,8 +64,6 @@ class Game:
                     print("The deck is empty")
                     return
             cards.append(player_cards)
-            count += 1
+            count = count + 1
 
         return cards
-    
-    
