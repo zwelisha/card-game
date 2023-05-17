@@ -2,6 +2,7 @@ from game import Game
 from tkinter import *
 import random
 from PIL import Image, ImageTk
+import logging
 
 # B-sure brand colour -orange #ff6300
 root = Tk()
@@ -30,7 +31,14 @@ global scores
 global tied
 scores = dict(player1=0, player2=0, player3=0, player4=0, player5=0, player6=0)
 
+LOG_FORMAT = "%(levelname)s %(asctime)s - %(message)s"
+logging.basicConfig(
+    filename="cardgamelogger.log", level=logging.DEBUG, format=LOG_FORMAT, filemode="w"
+)
+logger = logging.getLogger()
 
+
+logger.info("Multiplayer Card Game Logs")
 def main():
     tied = False
     no_of_players = 6
@@ -45,7 +53,6 @@ def main():
 
     replay_btn.pack()
     quit_btn = Button(root, text="QUIT", command=root.destroy)
-    # quit_btn.configure(bg="green")
     quit_btn.pack()
     winner_label.pack()
 
@@ -54,7 +61,8 @@ def main():
 
 def get_resized_card(card_path):
     card = Image.open(card_path)
-    resized_card = card.resize((57, 74))  # 75 109
+    resized_card = card.resize((57, 74)) 
+
     card_image = ImageTk.PhotoImage(resized_card)
     return card_image
 
@@ -151,14 +159,9 @@ def break_tie(game_cards):
             player_cards = game_cards[int(player_key[-1]) - 1]
             suit_score = calculate_suit_score(player_cards)
             scores[player_key] = suit_score
-        print(tied_players)
+        logger.info(f"Tied players: {tied_players}")
 
-def display_cards(all_cards):
-    cards = all_cards
-    calculate_scores(cards)
-    print("INITIAL SCORES")
-    print(scores)
-    break_tie(cards)
+def update_winner_label():
     scores_string = ''
     score_keys = list(scores.keys())
     for score_key in score_keys:
@@ -166,8 +169,16 @@ def display_cards(all_cards):
     winner = highest_score_string(scores)
     winner_label.configure(text=f'SCORES: {scores_string.upper()} \n\n WINNER: {winner.upper()} ')
     winner_label.configure(font=('Tekton Pro', 14), fg='#ff6300')
-    print("FINAL SCORES")
-    print(scores)
+
+def display_cards(all_cards):
+    cards = all_cards
+    calculate_scores(cards)
+    for n, player_cards in enumerate(cards):
+        logger.info(f'player {n+1} cards: {player_cards}')
+    logger.info(f"Initial scores: {scores}")
+    break_tie(cards)
+    update_winner_label()
+    logger.info(f"Final scores: {scores}")
     
     row = 0
     col = 0
